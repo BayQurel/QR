@@ -4,35 +4,120 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QR Menü</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#0f172a;--card:#111827;--muted:#9ca3af;--accent:#22c55e}
+    :root{
+      --accent:#f59e0b;
+      --glass:rgba(15,23,42,.65);
+      --text:#f8fafc;
+      --muted:#cbd5e1;
+    }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui;background:linear-gradient(180deg,#020617,#020617 30%,#020617);color:#e5e7eb}
-    header{padding:24px 16px;text-align:center}
-    header h1{margin:0;font-size:28px}
+    body{
+      margin:0;
+      font-family:Poppins,system-ui;
+      color:var(--text);
+      min-height:100vh;
+      background:#000;
+      overflow-x:hidden;
+    }
+
+    /* === DİNAMİK ARKA PLAN === */
+    .bg{
+      position:fixed; inset:0;
+      background-size:cover;
+      background-position:center;
+      filter:blur(6px) brightness(.6);
+      transform:scale(1.1);
+      transition:background-image 1.5s ease-in-out;
+      z-index:-2;
+    }
+    .overlay{
+      position:fixed; inset:0;
+      background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.8));
+      z-index:-1;
+    }
+
+    header{
+      text-align:center;
+      padding:32px 16px 20px;
+    }
+    header h1{margin:0;font-size:32px;letter-spacing:.5px}
     header p{margin:8px 0 0;color:var(--muted)}
-    .wrap{max-width:980px;margin:0 auto;padding:16px}
-    .search{display:flex;gap:8px;margin:16px 0}
-    .search input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid #1f2937;background:#020617;color:#e5e7eb}
-    .cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-    .cat{padding:8px 12px;border-radius:999px;border:1px solid #1f2937;color:#cbd5f5;cursor:pointer}
-    .cat.active{background:var(--accent);border-color:var(--accent);color:#052e16}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-    .card{background:rgba(17,24,39,.8);backdrop-filter:blur(6px);border:1px solid #1f2937;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    .img{height:160px;background:#020617 center/cover}
+
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
+
+    .search{
+      margin:16px 0 20px;
+    }
+    .search input{
+      width:100%;
+      padding:14px 16px;
+      border-radius:14px;
+      border:none;
+      outline:none;
+      background:var(--glass);
+      color:var(--text);
+      backdrop-filter:blur(10px);
+      font-size:15px;
+    }
+
+    .cats{
+      display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px
+    }
+    .cat{
+      padding:8px 16px;border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);
+      color:var(--text);
+      cursor:pointer;
+      transition:.2s
+    }
+    .cat.active, .cat:hover{
+      background:var(--accent);color:#1f2937;border-color:var(--accent)
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:18px;
+    }
+
+    .card{
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:20px;
+      overflow:hidden;
+      backdrop-filter:blur(14px);
+      box-shadow:0 20px 40px rgba(0,0,0,.4);
+      transition:transform .25s
+    }
+    .card:hover{transform:translateY(-4px)}
+
+    .img{height:170px;background:center/cover}
+
     .body{padding:14px}
-    .title{display:flex;justify-content:space-between;gap:8px}
-    .title h3{margin:0;font-size:16px}
+    .title{display:flex;justify-content:space-between;gap:10px}
+    .title h3{margin:0;font-size:17px}
     .price{font-weight:700;color:var(--accent)}
-    .desc{color:var(--muted);font-size:13px;margin-top:6px}
-    footer{padding:24px;text-align:center;color:var(--muted)}
+    .desc{margin-top:6px;font-size:13px;color:var(--muted)}
+
+    footer{
+      text-align:center;
+      padding:26px 16px;
+      color:var(--muted);
+      font-size:13px
+    }
   </style>
 </head>
 <body>
+
+  <div class="bg" id="bg"></div>
+  <div class="overlay"></div>
+
   <header>
     <h1 id="restaurantName">RESTORAN ADI</h1>
-    <p id="restaurantNote">Lezzetli menümüzü keşfedin</p>
+    <p id="restaurantNote">Lezzetli menümüz</p>
   </header>
 
   <div class="wrap">
@@ -45,56 +130,73 @@
 
   <footer>© <span id="y"></span> QR Menü</footer>
 
-  <script>
-    // ==== SADECE BURAYI DÜZENLE ==== 
-    const DATA = {
-      restaurant:{ name:"Örnek Restoran", note:"QR Menü – ücretsiz" },
-      categories:["Tümü","Burger","Pizza","İçecek"],
-      items:[
-        {id:1,cat:"Burger",name:"Cheeseburger",price:"180 ₺",desc:"Dana köfte, cheddar",img:"https://picsum.photos/600/400?1"},
-        {id:2,cat:"Burger",name:"Double Burger",price:"240 ₺",desc:"Çift köfte",img:"https://picsum.photos/600/400?2"},
-        {id:3,cat:"Pizza",name:"Margherita",price:"210 ₺",desc:"Mozzarella & fesleğen",img:"https://picsum.photos/600/400?3"},
-        {id:4,cat:"İçecek",name:"Ayran",price:"30 ₺",desc:"Soğuk",img:"https://picsum.photos/600/400?4"}
-      ]
-    };
-    // =============================
+<script>
+/* ==== SADECE BURAYI DÜZENLE ==== */
+const DATA = {
+  restaurant:{ name:"Efem Yörük Otağı", note:"Odun ateşinde lezzetler" },
+  backgrounds:[
+    "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+    "https://images.unsplash.com/photo-1555992336-cbf1e0a63a88",
+    "https://images.unsplash.com/photo-1504674900247-0877df9cc836"
+  ],
+  categories:["Tümü","Kebap","Izgara","İçecek"],
+  items:[
+    {cat:"Kebap",name:"Adana Kebap",price:"280 ₺",desc:"Zırh çekim, köz biber",img:"https://images.unsplash.com/photo-1625944526455-1d8c1b3c7f94"},
+    {cat:"Kebap",name:"Urfa Kebap",price:"270 ₺",desc:"Acısız, özel baharat",img:"https://images.unsplash.com/photo-1633945274309-2c16f3e3d6f4"},
+    {cat:"Izgara",name:"Kuzu Şiş",price:"320 ₺",desc:"Izgara kuzu eti",img:"https://images.unsplash.com/photo-1544025162-d76694265947"},
+    {cat:"İçecek",name:"Ayran",price:"35 ₺",desc:"Soğuk",img:"https://images.unsplash.com/photo-1580910051074-7a6d2b37b0cb"}
+  ]
+};
+/* ============================== */
 
-    const $=s=>document.querySelector(s);
-    const grid=$('#grid'), cats=$('#cats'), q=$('#q');
-    $('#restaurantName').textContent=DATA.restaurant.name;
-    $('#restaurantNote').textContent=DATA.restaurant.note;
-    $('#y').textContent=new Date().getFullYear();
+const $=s=>document.querySelector(s);
+const grid=$('#grid'), cats=$('#cats'), q=$('#q');
+$('#restaurantName').textContent=DATA.restaurant.name;
+$('#restaurantNote').textContent=DATA.restaurant.note;
+$('#y').textContent=new Date().getFullYear();
 
-    let active='Tümü';
-    function renderCats(){
-      cats.innerHTML='';
-      DATA.categories.forEach(c=>{
-        const b=document.createElement('button');
-        b.className='cat'+(c===active?' active':'');
-        b.textContent=c;
-        b.onclick=()=>{active=c;renderCats();render();};
-        cats.appendChild(b);
-      });
-    }
-    function render(){
-      const term=q.value.toLowerCase();
-      grid.innerHTML='';
-      DATA.items.filter(i=>
-        (active==='Tümü'||i.cat===active) &&
-        (i.name.toLowerCase().includes(term)||i.desc.toLowerCase().includes(term))
-      ).forEach(i=>{
-        const d=document.createElement('div');
-        d.className='card';
-        d.innerHTML=`<div class="img" style="background-image:url('${i.img}')"></div>
-          <div class="body">
-            <div class="title"><h3>${i.name}</h3><div class="price">${i.price}</div></div>
-            <div class="desc">${i.desc}</div>
-          </div>`;
-        grid.appendChild(d);
-      });
-    }
-    q.oninput=render;
-    renderCats();render();
-  </script>
+let active='Tümü';
+
+function renderCats(){
+  cats.innerHTML='';
+  DATA.categories.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='cat'+(c===active?' active':'');
+    b.textContent=c;
+    b.onclick=()=>{active=c;renderCats();render();};
+    cats.appendChild(b);
+  });
+}
+
+function render(){
+  const term=q.value.toLowerCase();
+  grid.innerHTML='';
+  DATA.items.filter(i=>
+    (active==='Tümü'||i.cat===active) &&
+    (i.name.toLowerCase().includes(term)||i.desc.toLowerCase().includes(term))
+  ).forEach(i=>{
+    const d=document.createElement('div');
+    d.className='card';
+    d.innerHTML=`<div class="img" style="background-image:url('${i.img}')"></div>
+      <div class="body">
+        <div class="title"><h3>${i.name}</h3><div class="price">${i.price}</div></div>
+        <div class="desc">${i.desc}</div>
+      </div>`;
+    grid.appendChild(d);
+  });
+}
+q.oninput=render;
+renderCats();render();
+
+/* === ARKA PLAN SLIDER === */
+let bi=0;
+const bg=$('#bg');
+function rotateBg(){
+  bg.style.backgroundImage=`url('${DATA.backgrounds[bi]}')`;
+  bi=(bi+1)%DATA.backgrounds.length;
+}
+rotateBg();
+setInterval(rotateBg,6000);
+</script>
 </body>
 </html>
