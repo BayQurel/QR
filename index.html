@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Menü</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0f172a;--card:#111827;--muted:#9ca3af;--accent:#22c55e}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui;background:linear-gradient(180deg,#020617,#020617 30%,#020617);color:#e5e7eb}
+    header{padding:24px 16px;text-align:center}
+    header h1{margin:0;font-size:28px}
+    header p{margin:8px 0 0;color:var(--muted)}
+    .wrap{max-width:980px;margin:0 auto;padding:16px}
+    .search{display:flex;gap:8px;margin:16px 0}
+    .search input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid #1f2937;background:#020617;color:#e5e7eb}
+    .cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+    .cat{padding:8px 12px;border-radius:999px;border:1px solid #1f2937;color:#cbd5f5;cursor:pointer}
+    .cat.active{background:var(--accent);border-color:var(--accent);color:#052e16}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .card{background:rgba(17,24,39,.8);backdrop-filter:blur(6px);border:1px solid #1f2937;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .img{height:160px;background:#020617 center/cover}
+    .body{padding:14px}
+    .title{display:flex;justify-content:space-between;gap:8px}
+    .title h3{margin:0;font-size:16px}
+    .price{font-weight:700;color:var(--accent)}
+    .desc{color:var(--muted);font-size:13px;margin-top:6px}
+    footer{padding:24px;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="restaurantName">RESTORAN ADI</h1>
+    <p id="restaurantNote">Lezzetli menümüzü keşfedin</p>
+  </header>
+
+  <div class="wrap">
+    <div class="search">
+      <input id="q" placeholder="Menüde ara…" />
+    </div>
+    <div class="cats" id="cats"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <footer>© <span id="y"></span> QR Menü</footer>
+
+  <script>
+    // ==== SADECE BURAYI DÜZENLE ==== 
+    const DATA = {
+      restaurant:{ name:"Örnek Restoran", note:"QR Menü – ücretsiz" },
+      categories:["Tümü","Burger","Pizza","İçecek"],
+      items:[
+        {id:1,cat:"Burger",name:"Cheeseburger",price:"180 ₺",desc:"Dana köfte, cheddar",img:"https://picsum.photos/600/400?1"},
+        {id:2,cat:"Burger",name:"Double Burger",price:"240 ₺",desc:"Çift köfte",img:"https://picsum.photos/600/400?2"},
+        {id:3,cat:"Pizza",name:"Margherita",price:"210 ₺",desc:"Mozzarella & fesleğen",img:"https://picsum.photos/600/400?3"},
+        {id:4,cat:"İçecek",name:"Ayran",price:"30 ₺",desc:"Soğuk",img:"https://picsum.photos/600/400?4"}
+      ]
+    };
+    // =============================
+
+    const $=s=>document.querySelector(s);
+    const grid=$('#grid'), cats=$('#cats'), q=$('#q');
+    $('#restaurantName').textContent=DATA.restaurant.name;
+    $('#restaurantNote').textContent=DATA.restaurant.note;
+    $('#y').textContent=new Date().getFullYear();
+
+    let active='Tümü';
+    function renderCats(){
+      cats.innerHTML='';
+      DATA.categories.forEach(c=>{
+        const b=document.createElement('button');
+        b.className='cat'+(c===active?' active':'');
+        b.textContent=c;
+        b.onclick=()=>{active=c;renderCats();render();};
+        cats.appendChild(b);
+      });
+    }
+    function render(){
+      const term=q.value.toLowerCase();
+      grid.innerHTML='';
+      DATA.items.filter(i=>
+        (active==='Tümü'||i.cat===active) &&
+        (i.name.toLowerCase().includes(term)||i.desc.toLowerCase().includes(term))
+      ).forEach(i=>{
+        const d=document.createElement('div');
+        d.className='card';
+        d.innerHTML=`<div class="img" style="background-image:url('${i.img}')"></div>
+          <div class="body">
+            <div class="title"><h3>${i.name}</h3><div class="price">${i.price}</div></div>
+            <div class="desc">${i.desc}</div>
+          </div>`;
+        grid.appendChild(d);
+      });
+    }
+    q.oninput=render;
+    renderCats();render();
+  </script>
+</body>
+</html>
