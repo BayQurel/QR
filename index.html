@@ -38,7 +38,7 @@ header p{margin:6px 0 0;color:#ccc}
 .controls button:hover{transform:scale(1.05)}
 .section{margin:32px 18px}
 .section h2{margin-bottom:16px;font-size:22px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
 .card{
   background:var(--card-dark);
   backdrop-filter:blur(14px);
@@ -47,22 +47,28 @@ header p{margin:6px 0 0;color:#ccc}
   position:relative;
   transition:.3s;
   animation:fadeIn .8s ease;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  height:300px; /* Sabit kart yüksekliği */
 }
-.card:hover{transform:translateY(-6px);box-shadow:0 8px 18px rgba(0,0,0,.4)}
-.card img{width:100%;height:140px;object-fit:cover;border-radius:14px}
-.card h3{margin:10px 0 6px;font-size:17px}
-.price{font-weight:700;color:var(--accent)}
+.card img{
+  width:100%;
+  height:150px; /* Sabit resim yüksekliği */
+  object-fit:cover;
+  border-radius:14px;
+}
+.card h3{margin:10px 0 6px;font-size:17px;flex-grow:1}
+.price{font-weight:700;color:var(--accent);text-align:right}
 .badge{
   position:absolute;top:10px;right:10px;
   background:var(--accent);color:#000;
   padding:4px 8px;border-radius:12px;font-size:12px;font-weight:700
 }
+.card:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 8px 18px rgba(0,0,0,.4)}
 .hide .price{display:none}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.light{
-  background:var(--bg-light);
-  color:var(--text-light);
-}
+.light{background:var(--bg-light);color:var(--text-light)}
 .light .card{background:var(--card-light)}
 .light .overlay{background:rgba(255,255,255,.4)}
 </style>
@@ -86,16 +92,14 @@ header p{margin:6px 0 0;color:#ccc}
 <div class="card"><img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574"><h3>Kış Çayı</h3><div class="price">₺20</div></div>
 <div class="card"><img src="https://images.unsplash.com/photo-1604908177522-402b0a5d0e8c"><h3>Ada Çayı</h3><div class="price">₺18</div></div>
 <div class="card"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93"><h3>Türk Kahvesi</h3><div class="price">₺25</div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1587731541340-61c8a0bdbb67"><h3>Nescafe</h3><div class="price">₺22</div></div>
 </div></div>
 
 <div class="section">
 <h2>🧃 Soğuk İçecekler</h2>
 <div class="grid">
-<div class="card"><img src="https://images.unsplash.com/photo-1571687949920-b2b0d5fae6a2"><h3>Taze Portakal Suyu</h3><div class="price">₺28</div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1572441710534-68019c16e6c5"><h3>Karışık Meyve Suyu</h3><div class="price">₺30</div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1604908177211-d8fa0b9c96e1"><h3>Kola / Fanta / Gazoz</h3><div class="price">₺18</div></div>
-<div class="card"><img src="https://images.unsplash.com/photo-1592928302636-c83f1e8d84de"><h3>Sade & Meyveli Soda</h3><div class="price">₺15</div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1571687949920-b2b0d5fae6a2"><h3>Portakal Suyu</h3><div class="price">₺28</div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1572441710534-68019c16e6c5"><h3>Meyve Suyu</h3><div class="price">₺30</div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1604908177211-d8fa0b9c96e1"><h3>Kola / Fanta</h3><div class="price">₺18</div></div>
 </div></div>
 
 <div class="section">
@@ -112,7 +116,7 @@ header p{margin:6px 0 0;color:#ccc}
 <div class="card"><span class="badge">⭐ En Çok Tercih Edilen</span>
 <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2">
 <h3>Serpme Kahvaltı (2 Kişilik)</h3>
-<p style="font-size:13px">Peynir çeşitleri, zeytin, yumurta/menemen, kızartma, bal-kaymak, reçel, pişi, börek, sınırsız çay</p>
+<p style="font-size:13px">Peynir, zeytin, yumurta, kızartma, bal-kaymak, reçel, börek, sınırsız çay</p>
 <div class="price">₺120</div>
 </div>
 </div></div>
