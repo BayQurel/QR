@@ -133,18 +133,57 @@
 <script>
 /* ==== SADECE BURAYI DÜZENLE ==== */
 const DATA = {
-  restaurant:{ name:"Efem Yörük Otağı", note:"Odun ateşinde lezzetler" },
+  restaurant:{ name:"Efem Yörük Otağı", note:"Ateş, buhar ve tatların illüzyonu" },
+
   backgrounds:[
-    "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-    "https://images.unsplash.com/photo-1555992336-cbf1e0a63a88",
-    "https://images.unsplash.com/photo-1504674900247-0877df9cc836"
+    "images/bg1.jpg",
+    "images/bg2.jpg",
+    "images/bg3.jpg"
   ],
-  categories:["Tümü","Kebap","Izgara","İçecek"],
+
+  categories:[
+    "Sıcak İçecekler",
+    "Soğuk İçecekler",
+    "Tatlılar",
+    "Izgaralar",
+    "Serpme Kahvaltı"
+  ],
+
   items:[
-    {cat:"Kebap",name:"Adana Kebap",price:"280 ₺",desc:"Zırh çekim, köz biber",img:"https://images.unsplash.com/photo-1625944526455-1d8c1b3c7f94"},
-    {cat:"Kebap",name:"Urfa Kebap",price:"270 ₺",desc:"Acısız, özel baharat",img:"https://images.unsplash.com/photo-1633945274309-2c16f3e3d6f4"},
-    {cat:"Izgara",name:"Kuzu Şiş",price:"320 ₺",desc:"Izgara kuzu eti",img:"https://images.unsplash.com/photo-1544025162-d76694265947"},
-    {cat:"İçecek",name:"Ayran",price:"35 ₺",desc:"Soğuk",img:"https://images.unsplash.com/photo-1580910051074-7a6d2b37b0cb"}
+    /* === SICAK İÇECEKLER === */
+    {cat:"Sıcak İçecekler",name:"Çay",price:"",desc:"Demlikten, ince belli bardakta",img:"https://images.unsplash.com/photo-1517705008128-361805f42e86"},
+    {cat:"Sıcak İçecekler",name:"Kış Çayı",price:"",desc:"Baharat ve meyve karışımı",img:"https://images.unsplash.com/photo-1544787219-7f47ccb76574"},
+    {cat:"Sıcak İçecekler",name:"Ada Çayı",price:"",desc:"Doğal ve rahatlatıcı",img:"https://images.unsplash.com/photo-1518976024611-488c1b8d0f0c"},
+    {cat:"Sıcak İçecekler",name:"Nane Limon",price:"",desc:"Şifa niyetine",img:"https://images.unsplash.com/photo-1604908554164-8b3b39b5d5e3"},
+    {cat:"Sıcak İçecekler",name:"Filtre Kahve",price:"",desc:"Yumuşak içim",img:"https://images.unsplash.com/photo-1509042239860-f550ce710b93"},
+    {cat:"Sıcak İçecekler",name:"Türk Kahvesi",price:"",desc:"Köz tadında",img:"https://images.unsplash.com/photo-1605472563036-6e1c8a7f4c9d"},
+    {cat:"Sıcak İçecekler",name:"Nescafe",price:"",desc:"Klasik lezzet",img:"https://images.unsplash.com/photo-1521302080371-4b43b9cfa24d"},
+
+    /* === SOĞUK İÇECEKLER === */
+    {cat:"Soğuk İçecekler",name:"Taze Sıkılmış Portakal Suyu",price:"",desc:"Günlük, katkısız",img:"https://images.unsplash.com/photo-1571687949921-1306bfb24c5f"},
+    {cat:"Soğuk İçecekler",name:"Karışık Meyve Suyu",price:"",desc:"Mevsim meyveleri",img:"https://images.unsplash.com/photo-1571079937445-6e47e8bde8e4"},
+    {cat:"Soğuk İçecekler",name:"Şeftali Suyu",price:"",desc:"Serinletici",img:"https://images.unsplash.com/photo-1598514983181-dc7b3e07e02f"},
+    {cat:"Soğuk İçecekler",name:"Vişne Suyu",price:"",desc:"Ekşi tat",img:"https://images.unsplash.com/photo-1622597467836-f3285f1f8c5f"},
+    {cat:"Soğuk İçecekler",name:"Elma Suyu",price:"",desc:"Doğal aroma",img:"https://images.unsplash.com/photo-1576671081837-49000212a370"},
+    {cat:"Soğuk İçecekler",name:"Sade Soda",price:"",desc:"Soğuk servis",img:"https://images.unsplash.com/photo-1598908314732-07113901949e"},
+    {cat:"Soğuk İçecekler",name:"Meyveli Soda",price:"",desc:"Hafif aromalı",img:"https://images.unsplash.com/photo-1598511721788-c0a3b5f6f84b"},
+    {cat:"Soğuk İçecekler",name:"Su / Kola / Fanta / Gazoz",price:"",desc:"Soğuk dolap",img:"https://images.unsplash.com/photo-1544145945-f90425340c7e"},
+
+    /* === TATLILAR === */
+    {cat:"Tatlılar",name:"Fırın Sütlaç",price:"",desc:"Odun fırınında",img:"https://images.unsplash.com/photo-1625242662061-1d84e2d9c9e6"},
+    {cat:"Tatlılar",name:"Devil’s Dilim",price:"",desc:"Yoğun çikolata",img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587"},
+    {cat:"Tatlılar",name:"Fıstık Rüyası",price:"",desc:"Antep fıstıklı",img:"https://images.unsplash.com/photo-1605475129120-41d2e6f5d98b"},
+
+    /* === IZGARALAR & SICAKLAR === */
+    {cat:"Izgaralar",name:"Tost",price:"",desc:"Kaşarlı / karışık",img:"https://images.unsplash.com/photo-1604909053191-3bff9f6f0c3d"},
+    {cat:"Izgaralar",name:"Gözleme",price:"",desc:"Sac üzerinde",img:"https://images.unsplash.com/photo-1601050690597-df0568f70950"},
+    {cat:"Izgaralar",name:"Sahanda Yumurta",price:"",desc:"Köy yumurtası",img:"https://images.unsplash.com/photo-1551218808-94e220e084d2"},
+    {cat:"Izgaralar",name:"Sucuklu Yumurta",price:"",desc:"Tavada",img:"https://images.unsplash.com/photo-1603048297172-c92544798d42"},
+    {cat:"Izgaralar",name:"Menemen",price:"",desc:"Domates, biber",img:"https://images.unsplash.com/photo-1625944526455-1d8c1b3c7f94"},
+
+    /* === SERPME KAHVALTI === */
+    {cat:"Serpme Kahvaltı",name:"Serpme Kahvaltı (Tek Kişilik)",price:"",desc:"Yöresel ve taze ürünler",img:"https://images.unsplash.com/photo-1504754524776-8f4f37790ca0"},
+    {cat:"Serpme Kahvaltı",name:"Serpme Kahvaltı (2 Kişilik)",price:"",desc:"Beyaz peynir, tel peynir, tulum peyniri, siyah & yeşil zeytin, sahanda yumurta veya menemen, karışık kızartma, bal & kaymak, reçel çeşitleri, domates, salatalık, yeşillik, pişi, sigara böreği, sınırsız çay. Ekstra: gözleme, sigara böreği, semaver",img:"https://images.unsplash.com/photo-1559622214-2d7a0b7e1d4b"}
   ]
 };
 /* ============================== */
